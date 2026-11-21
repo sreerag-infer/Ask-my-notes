@@ -38,3 +38,25 @@ notes_db/
 # OS
 .DS_Store
 Thumbs.db
+
+tasks.txt
+
+ai4/
+ai3/
+venv/
+__pycache__/
+.env
+*.pyc
+
+# Virtual environments
+crew/ai4/
+ai3/
+ai4/
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Environment variables
+.env

@@ -53,3 +53,29 @@ Question: {q.question}"""
     answer = reply.choices[0].message.content
     return {"answer": answer, "sources": sources}
 
+# ---------- BONUS: upload a PDF from the web page ----------
+from fastapi import UploadFile
+from ingest import add_pdf
+
+@app.post("/upload")
+def upload(file: UploadFile):
+    name = os.path.basename(file.filename)
+    path = os.path.join("docs", name)
+    with open(path, "wb") as f:
+        f.write(file.file.read())
+    count = add_pdf(path)
+    return {"message": f"Added {name} ({count} pieces). Ask me!"}
+
+# ---------- DAY 3: the agent door ----------
+from agent_langchain import ask_agent
+
+
+@app.post("/agent")
+def agent(q: Question):
+    answer, steps = ask_agent(q.question)
+    return {"answer": answer, "steps": steps}
+
+# ---------- DAY 3: the live voice door ----------
+from voice import router as voice_router
+
+app.include_router(voice_router)
